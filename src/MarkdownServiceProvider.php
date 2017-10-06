@@ -22,9 +22,11 @@ class MarkdownServiceProvider extends ServiceProvider
      */
     public function boot ()
     {
-        $this->publishes([
-                __DIR__.'/../config/markdown.php' => config_path('markdown.php'),
-        ]);
+        $configPath  = __DIR__.'/../config/markdown.php';
+        $publishPath = function_exists('config_path') ? config_path('markdown.php') : base_path('config/markdown.php');
+
+        // publish config file (config/markdown.php)
+        $this->publishes([$configPath => $publishPath], 'config');
 
         Blade::directive('markdown', function ($markdown)
         {
