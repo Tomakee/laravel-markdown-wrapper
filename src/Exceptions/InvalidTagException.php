@@ -1,5 +1,5 @@
 <?php
 
-namespace Tomakee\Markdwon\Exceptions;
+namespace Tomakee\Markdown\Exceptions;
 
 class InvalidTagException extends \Exception {}

@@ -2,7 +2,7 @@
     "name": "tomakee/laravel-markdown-wrapper",
     "description": "Simple Laravel wrapper class for markdown parser.",
     "keywords": ["markdown", "markdown-extra", "extensible", "laravel"],
-    "homepage": "https://github.com/tomakee/laravel-markdown#readme",
+    "homepage": "https://github.com/tomakee/laravel-markdown-wrapper#readme",
     "type": "library",
     "require": {
         "php": ">=5.6.4",
@@ -25,7 +25,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tomakee\\Markdwon\\": "src/"
+            "Tomakee\\Markdown\\": "src/"
         },
         "files": [
             "src/helpers.php"

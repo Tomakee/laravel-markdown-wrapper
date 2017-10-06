@@ -11,10 +11,10 @@
  * @license   MIT
  */
 
-namespace Tomakee\Markdwon;
+namespace Tomakee\Markdown;
 
 use Tomakee\Markdwon\Exceptions\InvalidParserException;
-use Tomakee\Markdwon\Exceptions\InvalidTagException;
+use Tomakee\Markdown\Exceptions\InvalidTagException;
 
 class Parser
 {

@@ -8,7 +8,7 @@
  * @license   MIT
  */
 
-namespace Tomakee\Markdwon;
+namespace Tomakee\Markdown;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
