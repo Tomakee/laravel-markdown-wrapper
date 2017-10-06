@@ -13,7 +13,7 @@
 
 namespace Tomakee\Markdown;
 
-use Tomakee\Markdwon\Exceptions\InvalidParserException;
+use Tomakee\Markdown\Exceptions\InvalidParserException;
 use Tomakee\Markdown\Exceptions\InvalidTagException;
 
 class Parser
