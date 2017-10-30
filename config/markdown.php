@@ -66,7 +66,7 @@ return [
 
         [
                 'id'      => 'traditional',
-                'parser'  => '\\cebe\\markdown\\Markdown',
+                'parser'  => \cebe\markdown\Markdown::class,
                 'methods' => [
                         'single' => 'parseParagraph',
                         'multi'  => 'parse',
@@ -77,7 +77,7 @@ return [
                 ],
         ],[
                 'id'      => 'github',
-                'parser'  => '\\cebe\\markdown\\GithubMarkdown',
+                'parser'  => \cebe\markdown\GithubMarkdown::class,
                 'methods' => [
                         'single' => 'parseParagraph',
                         'multi'  => 'parse',
@@ -89,27 +89,26 @@ return [
                 ],
         ],[
                 'id'      => 'extra',
-                'parser'  => '\\cebe\\markdown\\MarkdownExtra',
+                'parser'  => \cebe\markdown\MarkdownExtra::class,
                 'methods' => [
                         'single' => 'parseParagraph',
                         'multi'  => 'parse',
                 ],
                 'config'  => [
                         'html5'               => true,
-                        'enableNewlines'      => true,
                         'keepListStartNumber' => false,
                         'codeAttributesOnPre' => true,
                 ],
         ],[
                 'id'      => 'michelf',
-                'parser'  => '\\Michelf\\Markdown',
+                'parser'  => \Michelf\Markdown::class,
                 'methods' => [
                         'single' => 'transform',
                         'multi'  => 'transform',
                 ],
                 'config'  => [
                         'empty_element_suffix' => ' />',
-                        'tab_width'            => 2,
+                        'tab_width'            => 4,
                         'hard_wrap'            => true,
                         'no_markup'            => false,
                         'no_entities'          => false,
@@ -123,14 +122,14 @@ return [
                 ],
         ],[
                 'id'      => 'michelf-extra',
-                'parser'  => '\\Michelf\\MarkdownExtra',
+                'parser'  => \Michelf\MarkdownExtra::class,
                 'methods' => [
                         'single' => 'transform',
                         'multi'  => 'transform',
                 ],
                 'config'  => [
                         'empty_element_suffix' => '>',
-                        'tab_width'            => 2,
+                        'tab_width'            => 4,
                         'hard_wrap'            => true,
                         'no_markup'            => false,
                         'no_entities'          => false,

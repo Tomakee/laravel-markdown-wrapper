@@ -28,20 +28,23 @@ class MarkdownServiceProvider extends ServiceProvider
         // publish config file (config/markdown.php)
         $this->publishes([$configPath => $publishPath], 'config');
 
+        // @markdown
         Blade::directive('markdown', function ($markdown)
         {
             if (! empty($markdown)) {
-                $config = app('markdown')->config;
-
-                $method = false !== strpos($markdown, "\n")
-                    ? array_get($config, 'methods.multi', 'transform') : array_get($config, 'methods.single', 'transform');
-
-                return "<?php echo app('markdown')->$method($markdown); ?>";
+                return "<?php echo markdown($markdown); ?>";
             }
 
             return "<?php app('markdown')->start() ?>";
         });
 
+        // @markdownFile
+        Blade::directive('markdownFile', function ($path, array $resources = [])
+        {
+            return "<?php echo markdown_file($path, $resources); ?>";
+        });
+
+        // @endmarkdown
         Blade::directive('endmarkdown', function ()
         {
             return "<?php echo app('markdown')->end() ?>";
@@ -61,7 +64,7 @@ class MarkdownServiceProvider extends ServiceProvider
             $default  = array_get($markdown, 'default', 'michelf-extra');
 
             $markdown = array_column($markdown, null, 'id');
-            $parser   = array_get($markdown, "$default.parser", '\\Michelf\\MarkdownExtra');
+            $parser   = array_get($markdown, "$default.parser", \Michelf\MarkdownExtra::class);
             $config   = array_get($markdown, "$default.config", []);
 
             $psr = class_exists($parser) ? new $parser : new \stdClass();

@@ -19,22 +19,16 @@ use Tomakee\Markdown\Exceptions\InvalidTagException;
 class Parser
 {
     /**
-     * Markdown Paser
-     * @var object  (exp: \Michelf\MarkdownExtra)
+     * Markdown parser instance
+     * @var object  (ex: \Michelf\MarkdownExtra)
      */
     protected $psr;
 
     /**
-     * Markdown Parser Settings
-     * @var string  markdown parser config array (config/markdown.php).
+     * Markdown parser settings
+     * @var string  loaded markdown parser config (config/markdown.php).
      */
     public $config = [];
-
-    /**
-     * Markdown string
-     * @var string  markdown text string.
-     */
-    public $markdown = '';
 
     /**
      * Capturing flag
@@ -46,7 +40,8 @@ class Parser
     /**
      * Constructor
      *
-     * @param object $parser  (exp: \Michelf\MarkdownExtra)
+     * @param  object $parser  (ex: \Michelf\MarkdownExtra)
+     * @throws InvalidParserException
      */
     public function __construct ($parser)
     {
@@ -55,8 +50,8 @@ class Parser
         if (! is_object($parser)) {
             throw new InvalidParserException("Markdown parser isn't an object.");
         }
-        if (false === $key = array_search('\\'.get_class($parser), array_column($config, 'parser', 'id'))) {
-            throw new InvalidParserException("This markdown parser isn't defined in the config (config/markdown.php).");
+        if (false === $key = array_search(get_class($parser), array_column($config, 'parser', 'id'))) {
+            throw new InvalidParserException("This markdown parser isn't defined in config (@see config/markdown.php): ".get_parent_class($parser));
         }
 
         $this->config = array_get($config, $key, []);
@@ -64,8 +59,49 @@ class Parser
     }
 
     /**
-     * Blade Start
+     * Overwrite markdown parser settings
+     *
+     * @param  mixed  $key    markdown parser property name | array('property' => 'value').
+     * @param  mixed  $value  property's value.
+     * @return object \Tomakee\Markdown\Parser
+     */
+    public function setConfig ($key, $value = null)
+    {
+        if (empty($key)) {
+            return $this;
+        }
+        if (is_string($key)) {
+            $key = [$key => $value];
+        }
+
+        foreach ($key as $k => $v) {
+            if (property_exists($this->psr, $k)) {
+                $this->psr->$k = $v;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Markdown parse
+     *
+     * @param  string  $markdown  markdown strings.
+     * @return string  html strings.
+     */
+    public function parse ($markdown = '')
+    {
+        $method = false !== strpos($markdown, "\n")
+            ? array_get($this->config, 'methods.multi', 'transform') : array_get($this->config, 'methods.single', 'transform');
+
+        return $this->psr->$method($markdown);
+    }
+
+    /**
+     * Start capturing markdown string
      * Blade extended directive: @markdown.
+     *
+     * @return void
      */
     public function start ()
     {
@@ -74,8 +110,11 @@ class Parser
     }
 
     /**
-     * Blade end
+     * End capturing markdwon string
      * Blade extended directive: @endmarkdown.
+     *
+     * @throws InvalidTagException
+     * @return string  parsed html strings.
      */
     public function end ()
     {
@@ -86,54 +125,49 @@ class Parser
         $this->capturing = false;
         $markdown = ob_get_clean();
 
-        // parse method
-        $method = false !== strpos($markdown, "\n")
-            ? array_get($this->config, 'methods.multi', 'transform') : array_get($this->config, 'methods.single', 'transform');
-
-        return $this->$method($markdown);
+        return $this->parse($markdown);
     }
 
     /**
      * Parse markdown file
+     * Blade extended directive: @markdownFile().
      *
-     * @param  string  $path  File path or blade view format: path.to.markdown. (File extension should be .md.blade.php)
-     * @throws InvalidTagException
-     * @return string  html strings
+     * @param  string  $path       File path or blade view format: path.to.markdown. (File extension should be .md.blade.php)
+     * @param  array   $resources  View resources path.
+     * @throws InvalidParserException
+     * @return string  html strings.
      */
-    public function parseWith ($path)
+    public function file ($path, array $resources = [])
     {
         if (false === strpos($path, '/') || strpos($path, '/') > 0) {
-            $path = $this->_finder($path);
+            $path = $this->_finder($path, $resources);
         }
         if (! file_exists($path) || ! is_readable($path)) {
             throw new InvalidParserException("Markdown file dosen't exist.");
         }
 
-        // multiple line parse method
-        $method = array_get($this->config, 'methods.multi', 'transform');
-
-        return $this->$method(file_get_contents($path));
+        return $this->parse(file_get_contents($path));
     }
 
     /**
      * Find markdown file path
      *
-     * @param  string  $path  laravel view dotted format: path.to.markdown.
-     * @return string
+     * @param  string  $path       laravel view dotted format: path.to.markdown.
+     * @param  array   $resources  View resources path.
+     * @return string  markdown file path.
      */
-    protected function _finder ($path)
+    protected function _finder ($path, array $resources)
     {
         if (false !== strpos($path, '/')) {
             $path = str_replace('/', '.', $path);
         }
 
-        $finder = new \Illuminate\View\FileViewFinder(
+        return (new \Illuminate\View\FileViewFinder(
                 app('Illuminate\Filesystem\Filesystem'),
-                config('markdown.resources', [resource_path('views')]),
+                (empty($resources) ? config('markdown.resources', [resource_path('views')]) : $resources),
                 config('markdown.extensions', ['md', 'md.blade.php', 'blade.php', 'php'])
-        );
-
-        return $finder->find($path);
+        ))
+        ->find($path);
     }
 
     /**
@@ -141,6 +175,7 @@ class Parser
      *
      * @param  string $method  class method name.
      * @param  array  $args    method arguments.
+     * @throws InvalidParserException
      * @return mixed  response class method, but if it isn't callable, return empty string.
      */
     public function __call ($method, array $args = [])
@@ -149,6 +184,6 @@ class Parser
             return $this->psr->$method(...$args);
         }
 
-        return '';
+        throw new InvalidParserException("Markdown parser doesn't have called method: $method.");
     }
 }
