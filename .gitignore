@@ -1,9 +1,0 @@
-.project
-.buildpath
-/.settings
-.gitignore
-/helper
-/vendor
-artisan
-.env
-composer.lock
