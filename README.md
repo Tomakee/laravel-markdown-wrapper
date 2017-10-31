@@ -1,4 +1,7 @@
 # laravel-markdown-wrapper
+
+[![Build Status](https://travis-ci.org/tomakee/laravel-markdown-wrapper.svg?branch=master)](https://travis-ci.org/tomakee/laravel-markdown-wrapper)
+
 Simple Laravel wrapper class for markdown parser such as [michelf/php-markdown](https://github.com/michelf/php-markdown) or [cebe/markdown](https://github.com/cebe/markdown), etc.
 
 
