@@ -2,11 +2,15 @@ language: php
 php:
     - 5.6
 
-before_script:
+install:
     - composer self-update
-    - composer install
-    - composer create-project --prefer-dist laravel/laravel tmp
-    - cp -rf tmp/app tmp/bootstrap tmp/config tmp/database tmp/public tmp/resources tmp/routes tmp/storage tmp/.env tmp/artisan tmp/server.php tmp/webpack.mix.js .
+    - travis_retry composer install --no-interaction
+
+before_script:
+    - travis_retry composer global require --no-interaction "laravel/installer"
+    - travis_retry composer create-project --prefer-dist --no-interaction laravel/laravel tmp
+    - sleep 3
+    - cp -r tmp/app tmp/bootstrap tmp/config tmp/database tmp/public tmp/resources tmp/routes tmp/storage tmp/.env tmp/artisan tmp/server.php tmp/webpack.mix.js .
 
 script:
     - vendor/bin/phpunit
