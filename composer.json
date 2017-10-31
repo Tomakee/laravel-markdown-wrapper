@@ -26,7 +26,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tomakee\\Markdown\\": "src/"
+            "Tomakee\\Markdown\\": "src/",
+            "Tests\\": "tests/"
         },
         "files": [
             "src/helpers.php"
