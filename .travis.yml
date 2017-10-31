@@ -5,9 +5,8 @@ php:
 before_script:
     - composer self-update
     - composer install
-    - composer global require "laravel/installer"
     - composer create-project --prefer-dist laravel/laravel tmp
-    - rsync -a tmp/ . --exclude "tests" --exclude "vendor" --exclude "*.xml" --exclude "*.json" --exclude "*.lock" --exclude "*.md"
+    - cp -rf tmp/app tmp/bootstrap tmp/config tmp/database tmp/public tmp/resources tmp/routes tmp/storage tmp/.env tmp/artisan tmp/server.php tmp/webpack.mix.js .
 
 script:
     - vendor/bin/phpunit
