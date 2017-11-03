@@ -4,6 +4,8 @@
 [![Latest Stable Version](https://poser.pugx.org/tomakee/laravel-markdown-wrapper/v/stable)](https://packagist.org/packages/tomakee/laravel-markdown-wrapper)
 [![License](https://poser.pugx.org/tomakee/laravel-markdown-wrapper/license)](https://packagist.org/packages/tomakee/laravel-markdown-wrapper)
 
+[日本語ドキュメント](https://github.com/tomakee/laravel-markdown-wrapper/blob/master/README.ja.md)
+
 
 Simple Laravel wrapper class for markdown parser such as [michelf/php-markdown](https://github.com/michelf/php-markdown) or [cebe/markdown](https://github.com/cebe/markdown), etc.
 
@@ -22,7 +24,7 @@ Add your favorite Markdown Parser.
 
 ## Functions
 - Blade directives: `@markdown`, `@endmarkdown`, `@markdownFile`.
-- Laravel helpers: `markdwon()`, `markdown_config()`, `markdown_file()`, `markdown_capture()`.
+- Laravel helpers: `markdown()`, `markdown_config()`, `markdown_file()`, `markdown_capture()`.
 - Laravel facade: `Markdown::parse()`, `Markdown::setConfig()`, `Markdown::file()`, `Markdown::start()`, `Markdown::end()`
 - Wrapper class main: `Tomakee\Markdown\Parser`
 
@@ -104,17 +106,18 @@ some markdown text.
 @endmarkdown
 ```
 
-#### include markdwon file
+#### include markdown file
 
 ```
-@markdwonFile('path.to.markdownfile')  {{-- path format is same as Laravel view. --}}
-```
+@markdownFile('path.to.markdownfile')  {{-- path format is same as Laravel view. --}}
 
+{{--
 You can set different resources path. 
-But if your project always use different path from default, change the config setting (app/config/markdown.php).
+But if your project always use different path from default, 
+change the config setting (app/config/markdown.php).
+--}}
 
-```
-@markdwonFile('path.to.markdownfile', [resources path]);
+@markdownFile('path.to.markdownfile', [resources path,,,]);
 ```
 
 
@@ -126,43 +129,43 @@ Anywhere Controller, etc., you can access to the wrapper class.
 
 ```php
 //parse markdown text
-$html = markdwon('some markdwon text.');
+$html = markdown('some markdown text.');
 ```
 
 #### markdown_config()
 
 ```php
 //change parser config
-$parser = markdwon_config('hard_wrap', false);
+$parser = markdown_config('hard_wrap', false);
 $html = $parser->parse('some markdown text.');
 
 //change parser config and parse markdown
-$html = markdwon_config(['hard_wrap' => false, 'code_class_prefix' => 'prefix-'])
+$html = markdown_config(['hard_wrap' => false, 'code_class_prefix' => 'prefix-'])
         ->parse('some markdown text.');
 ```
 
 #### markdown_file()
 
 ```php
-//path format is same as Laravel view
-$html = markdwon_file('path.to.markdownfile');  //path format is same as Laravel view.
-```
+//parse markdown file
+$html = markdown_file('path.to.markdownfile');  //path format is same as Laravel view.
 
-You can set different resources path. But if your project always use different path from default, change the config setting (app/config/markdown.php).
+//You can set different resources path.
+//But if your project always use different path from default,
+//change the config setting (app/config/markdown.php).
 
-```php
-$html = markdwon_file('path.to.markdownfile', [resources path,,,,]);
+$html = markdown_file('path.to.markdownfile', [resources path,,,,]);
 ```
 
 #### markdown_capture()
 
 ```php
-$html = markdwon_capture(function () {
+$html = markdown_capture(function () {
     echo 'some markdown text.';
 });
 
 //with params
-$html = markdwon_capture(function () use ($args1, $args2) {
+$html = markdown_capture(function () use ($args1, $args2) {
     echo $args1 . $args2 . 'some markdown text.';
 });
 ```
@@ -189,14 +192,14 @@ $html = Markdown::parse('some markdown text.');
 #### Markdown::file()
 
 ```php
-//parse markdwon file
+//parse markdown file
 $html = Markdown::file('path.to.markdownfile');  //path format is same as Laravel view.
 
 //You can set different resources path.
 //But if your project always use different path from default,
 //change the config setting (app/config/markdown.php).
 
-$html = Markdown::file('path.to.markdownfile', [resources path]);
+$html = Markdown::file('path.to.markdownfile', [resources path,,,]);
 ```
 
 #### Markdown::setConfig()
@@ -212,7 +215,7 @@ Markdown::setConfig('hard_wrap', true);
 ```
 
 #### Markdown::PARSER_METHOD()
-It's accessable to the original parser method directly through to __call() magic method:
+It's accessable to the original parser method directly through to ```__call()``` magic method:
 
 ```php
 //direct access to the original parser methods if you need
@@ -228,98 +231,64 @@ See this php: [src/MarkdownServiceProvider.php](https://github.com/tomakee/larav
 Tomakee\Markdown\MarkdownServiceProvider::register()
 ```
 
-#### app('markdwon'), app('Tomakee\Markdown\Parser')
+#### app('markdown'), app('Tomakee\Markdown\Parser')
 
 ```php
 //get instance
-$instance = app('markdwon');
+$instance = app('markdown');
 //or
 $instance = app('Tomakee\Markdown\Parser');
 ```
 
-#### app('markdwon')->parse()
+#### app('markdown')->parse()
 
 ```php
 //parse markdown text
-$html = app('markdwon')->parse('some markdown text.');
+$html = app('markdown')->parse('some markdown text.');
 ```
 
-#### app('markdwon')->file()
+#### app('markdown')->file()
 
 ```php
-//parse markdwon file
-$html = app('markdwon')->file('path.to.markdownfile');  //path format is same as Laravel view.
+//parse markdown file
+$html = app('markdown')->file('path.to.markdownfile');  //path format is same as Laravel view.
 
 //You can set different resources path.
 //But if your project always use different path from default,
 //change the config setting (app/config/markdown.php).
 
-$html = app('markdwon')->file('path.to.markdownfile', [resources path]);
+$html = app('markdown')->file('path.to.markdownfile', [resources path,,,]);
 ```
 
-#### app('markdwon')->setConfig()
+#### app('markdown')->setConfig()
 
 ```php
 //change parser config
-$html = app('markdwon')->setConfig('hard_wrap', false)
+$html = app('markdown')->setConfig('hard_wrap', false)
     ->parse('some markdown text.');
 
 //temporary change parser config
-$html = app('markdwon')->setConfig('hard_wrap', false)
+$html = app('markdown')->setConfig('hard_wrap', false)
     ->parse('some markdown text.');
-app('markdwon')->setConfig('hard_wrap', true);
+app('markdown')->setConfig('hard_wrap', true);
 ```
 
-#### app('markdwon')->PARSER_METHOD()
-It's accessable to the original parser method directly through to __call() magic method:
+#### app('markdown')->PARSER_METHOD()
+It's accessable to the original parser method directly through to ```__call()``` magic method:
 
 ```php
 //direct access to the original parser methods if you need
-app('markdwon')->PARSER_METHOD();
+app('markdown')->PARSER_METHOD();
 ```
 
 
 ## Markdown Parser Config
-Markdown wrapper class config is placed at app/config/markdown.php after execute:
+Markdown wrapper class config is placed at ```app/config/markdown.php``` after execute:
 
 ```bash
 cd LARAVEL_PROJECT_DIR
 php artisan vendor:publish
 ```
-
-#### default
-Automatically loading parser class id (see section [Parser settings > id](./#user-content-howto-install) ).<br>
-(*default value: 'michelf-extra'*)
-
-#### resources
-Markdown file resources path. Markdown files will be finded in this path.
-If they are placed in different pathes, then should be set all of pathes in this array().<br>
-(*default value: [resource_path('views')]*)
-
-#### extensions
-Markdown file extensions array.<br>
-(*default value: ['md', 'md.blade.php', 'blade.php', 'php']*)
-
-
-### Parser settings
-
-#### id
-Unique id string for the parser class. If it's unique, anything is possible.
-
-#### parser
-Full path string of the parser class such as \namespace\to\class::class.
-
-#### methods
-A single or multiple line to parse markdown method name.
-Array keys are "single" and "multi".
-
-- single : for single line markdown.
-- multi  : for multipule line markdown.
-
-#### config
-Parser class config properties array.
-If there is no config, value must be empty array().
-
 
 ### Example:
 
@@ -342,3 +311,27 @@ If there is no config, value must be empty array().
         ],
     ],
 ];
+```
+
+### default
+Automatically loading parser class id (see section [Parser settings > id](#id) ).<br>
+(*default value: 'michelf-extra'*)
+
+### resources
+Markdown file resources path. Markdown files will be finded in this path.
+If they are placed in different pathes, then should be set all of pathes in this array().<br>
+(*default value: [resource_path('views')]*)
+
+### extensions
+Markdown file extensions array.<br>
+(*default value: ['md', 'md.blade.php', 'blade.php', 'php']*)
+
+
+### Parser settings
+
+- id : Unique id string for the parser class. If it's unique, anything is possible.
+- parser : Full path string of the parser class such as ```\namespace\to\class::class```.
+- methods : A single or multiple line to parse markdown method name. Array keys are "single" and "multi".
+    - single : for single line markdown.
+    - multi  : for multipule line markdown.
+- config : Parser class config properties array. If there is no config, value must be empty array().
