@@ -232,9 +232,9 @@ Tomakee\Markdown\MarkdownServiceProvider::register()
 
 ```php
 //get instance
-return $instance = app('markdwon');
+$instance = app('markdwon');
 //or
-return $instance = app('Tomakee\Markdown\Parser');
+$instance = app('Tomakee\Markdown\Parser');
 ```
 
 #### app('markdwon')->parse()
@@ -261,11 +261,12 @@ $html = app('markdwon')->file('path.to.markdownfile', [resources path]);
 
 ```php
 //change parser config
-return app('markdwon')->setConfig('hard_wrap', false)
+$html = app('markdwon')->setConfig('hard_wrap', false)
     ->parse('some markdown text.');
 
 //temporary change parser config
-$html = app('markdwon')->setConfig('hard_wrap', false)->parse('some markdown text.');
+$html = app('markdwon')->setConfig('hard_wrap', false)
+    ->parse('some markdown text.');
 app('markdwon')->setConfig('hard_wrap', true);
 ```
 
