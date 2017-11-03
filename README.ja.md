@@ -299,7 +299,7 @@ cd LARAVEL_PROJECT_DIR
 php artisan vendor:publish
 ```
 
-### 設定例:
+#### 例:
 
 ```php
 [
@@ -322,22 +322,22 @@ php artisan vendor:publish
 ];
 ```
 
-### default
-初期状態で自動的にロードする[パーサークラスID](#id)です。<br>
+#### default
+初期状態で自動的にロードするパーサークラスID（```パーサー設定＞id```参照）です。<br>
 （*初期値：'michelf-extra'*）
 
-### resources
+#### resources
 マークダウンファイルのリソースパスです。
 マークダウンファイルはこのリソースパスにおいてある必要があります。
 パスが異なる場合は、すべてのパスをこの配列に設定してください。<br>
 （*初期値：[resource_path('views')]*）
 
-### extensions
+#### extensions
 マークダウンファイルの拡張配列です。<br>
 （*初期値：['md', 'md.blade.php', 'blade.php', 'php']*）
 
 
-### パーサー設定
+#### パーサー設定
 
 - id　　　：パーサークラスのユニークIDを設定
 - parser　：```\namespace\to\class::class```の形式でパーサークラスのフルパスを設定

@@ -290,7 +290,7 @@ cd LARAVEL_PROJECT_DIR
 php artisan vendor:publish
 ```
 
-### Example:
+#### Example:
 
 ```php
 [
@@ -313,21 +313,21 @@ php artisan vendor:publish
 ];
 ```
 
-### default
-Automatically loading parser class id (see section [Parser settings > id](#id) ).<br>
+#### default
+Automatically loading parser class id (see ```Parser settings > id```).<br>
 (*default value: 'michelf-extra'*)
 
-### resources
+#### resources
 Markdown file resources path. Markdown files will be finded in this path.
 If they are placed in different pathes, then should be set all of pathes in this array().<br>
 (*default value: [resource_path('views')]*)
 
-### extensions
+#### extensions
 Markdown file extensions array.<br>
 (*default value: ['md', 'md.blade.php', 'blade.php', 'php']*)
 
 
-### Parser settings
+#### Parser settings
 
 - id : Unique id string for the parser class. If it's unique, anything is possible.
 - parser : Full path string of the parser class such as ```\namespace\to\class::class```.
