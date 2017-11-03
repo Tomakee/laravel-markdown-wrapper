@@ -52,7 +52,7 @@ return [
          | Unique id string. If it's unique, anything is possible.
          |
          | - parser :
-         | Full path string of parser class such as '\\namespace\\to\\class'.
+         | Full path string of parser class such as \namespace\to\class::class.
          |
          | - methods :
          | A single or multiple line to parse markdown method name.
