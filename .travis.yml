@@ -9,7 +9,7 @@ install:
 before_script:
     - travis_retry git clone -b 5.4 --single-branch --depth=1 https://github.com/laravel/laravel.git tmp/
     - sleep 3
-    - cp -r tmp/app tmp/bootstrap tmp/config tmp/database tmp/public tmp/resources tmp/routes tmp/storage tmp/.env tmp/artisan tmp/server.php tmp/webpack.mix.js .
+    - cp -r tmp/app tmp/bootstrap tmp/config tmp/routes tmp/storage tmp/artisan .
 
 script:
     - vendor/bin/phpunit
