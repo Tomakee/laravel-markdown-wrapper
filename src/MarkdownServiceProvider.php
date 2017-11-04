@@ -39,9 +39,9 @@ class MarkdownServiceProvider extends ServiceProvider
         });
 
         // @markdownFile
-        Blade::directive('markdownFile', function ($path, array $resources = [])
+        Blade::directive('markdownFile', function ($path)
         {
-            return "<?php echo markdown_file($path, $resources); ?>";
+            return "<?php echo app('markdown')->file($path); ?>";
         });
 
         // @endmarkdown
