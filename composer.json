@@ -6,15 +6,14 @@
     "type": "library",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "~5.4|~5.5",
         "laravel/tinker": "~1.0",
         "cebe/markdown": "~1.1.2",
         "michelf/php-markdown": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.0",
-        "mockery/mockery": "0.9.*",
-        "barryvdh/laravel-ide-helper": "2.*"
+        "mockery/mockery": "0.9.*"
     },
     "license": "MIT",
     "authors": [
